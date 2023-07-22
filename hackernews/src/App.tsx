@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-function App() {
+import type {} from 'redux-thunk/extend-redux';
+import { useTypesSelector } from './hooks/useTypeSelector';
+import { fetchNews } from './store/action/news';
+
+const App: React.FC = () => {
+  const { news, error, loading } = useTypesSelector((state) => state.new);
+  const dispatch = useDispatch();
+
+  const sortedNews = news.sort((a, b) => (a.time < b.time ? 1 : -1));
+
+  console.log(sortedNews);
+
+  useEffect(() => {
+    dispatch(fetchNews());
+  }, []);
+
+  if (loading) {
+    return <h1>Идёт загрузка...</h1>;
+  }
+  if (error) {
+    return <h1>{error}</h1>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>ХэкНьюс</h1>
+      <div>
+        <button onClick={() => dispatch(fetchNews())}>Получить клиентов из базы</button>
+      </div>
+      <div>
+        {sortedNews.map((item: any) => (
+          <div key={item.id}>{item.title + ' ' + item?.points + ' ' + item?.user + ' ' + item.time}</div>
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
