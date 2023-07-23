@@ -6,7 +6,7 @@ export const fetchNews = () => {
   return async (dispatch: Dispatch<NewsAction>) => {
     try {
       dispatch({ type: NewsActionTypes.FETCH_NEWS });
-      const response = await axios.get('https://api.hnpwa.com/v0/news/1.json');
+      const response = await axios.get('https://api.hnpwa.com/v0/newest/1.json');
       setTimeout(() => {
         dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: response.data });
       }, 500);

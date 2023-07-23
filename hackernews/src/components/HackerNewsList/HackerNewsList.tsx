@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useTypesSelector } from '../../hooks/useTypeSelector';
+import Loader from '../Loader/Loader';
+import { fetchNews } from '../../store/action/news';
+import { NewsState } from '../../types/news';
+import HackerNewsItem from '../HackerNewsItem/HackerNewsItem';
 
-const HackerNewsList = () => {
-  return <div></div>;
+interface HackerNewsListProps {
+  sortedNews: NewsState['news'];
+}
+
+const HackerNewsList: React.FC<HackerNewsListProps> = ({ sortedNews }) => {
+  const { loading } = useTypesSelector((state) => state.new);
+  const dispatch = useDispatch();
+  return (
+    <>
+      <div>
+        {/*Кнопка для обновления списка новостей */}
+        <button onClick={() => dispatch(fetchNews())}>Получить клиентов из базы</button>{' '}
+      </div>
+      <div>
+        {loading && (
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 50 }}>
+            <Loader />
+          </div>
+        )}
+      </div>
+      <HackerNewsItem sortedNews={sortedNews} />
+    </>
+  );
 };
 
-export default HackerNewsList;
+export default React.memo(HackerNewsList);
