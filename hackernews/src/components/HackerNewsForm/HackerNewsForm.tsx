@@ -4,17 +4,15 @@ import { useDispatch } from 'react-redux';
 import type {} from 'redux-thunk/extend-redux';
 import { useTypesSelector } from '../../hooks/useTypeSelector';
 import { fetchNews } from '../../store/action/news';
+import Navbar from '../../UI/Navbar/Navbar';
 import HackerNewsList from '../HackerNewsList/HackerNewsList';
-import Loader from '../Loader/Loader';
 import { HackerNewsFormWrapper } from './HackerNewsFrom.styled';
 
 const HackerNewsForm: React.FC = () => {
-  const { news, error } = useTypesSelector((state) => state.new);
+  const { news, error } = useTypesSelector((state) => state.newsList);
   const dispatch = useDispatch();
 
   const sortedNews = news.sort((a, b) => (a.time < b.time ? 1 : -1));
-
-  console.log(sortedNews);
 
   useEffect(() => {
     dispatch(fetchNews());

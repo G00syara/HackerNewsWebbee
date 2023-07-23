@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-
-import type {} from 'redux-thunk/extend-redux';
-import HackerNewsForm from './components/HackerNewsForm/HackerNewsForm';
-import { useTypesSelector } from './hooks/useTypeSelector';
-import { fetchNews } from './store/action/news';
+import React from 'react';
+import NewsPage from './pages/NewsPage';
+import { BrowserRouter } from 'react-router-dom';
+import NewsIdPage from './pages/NewsIdPage';
+import AppRouter from './components/router/AppRouter';
 
 const App: React.FC = () => {
   return (
     <>
-      <HackerNewsForm />
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
     </>
   );
 };
