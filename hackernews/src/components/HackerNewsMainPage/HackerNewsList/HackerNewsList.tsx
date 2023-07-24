@@ -11,21 +11,8 @@ interface HackerNewsListProps {
 }
 
 const HackerNewsList: React.FC<HackerNewsListProps> = ({ sortedNews }) => {
-  const { loading } = useTypesSelector((state) => state.newsList);
-  const dispatch = useDispatch();
   return (
     <>
-      <div>
-        {/*Кнопка для обновления списка новостей */}
-        <button onClick={() => dispatch(fetchNews())}>Получить клиентов из базы</button>{' '}
-      </div>
-      <div>
-        {loading && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 50 }}>
-            <Loader />
-          </div>
-        )}
-      </div>
       <HackerNewsItem sortedNews={sortedNews} />
     </>
   );

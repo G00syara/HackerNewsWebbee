@@ -1,10 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import HackerNewsForm from '../components/HackerNewsMainPage/HackerNewsForm/HackerNewsForm';
+import { Navbar, StyledLink } from '../UI/Navbar/Navbar';
 
 const NewsPage: React.FC = () => {
   return (
     <>
-      <h1>Хэканьюс</h1>
+      <Navbar>
+        <StyledLink to="/">Хэканьюс</StyledLink>
+      </Navbar>
       <HackerNewsForm />
     </>
   );

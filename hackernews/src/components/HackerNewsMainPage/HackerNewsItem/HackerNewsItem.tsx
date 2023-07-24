@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, useNavigate } from 'react-router-dom';
 import { NewsState } from '../../../types/news';
-import { HackerNewsItemWrapper } from './HackerNewsItem.styled';
+import { HackerNewsItemOther, HackerNewsItemTitle, HackerNewsItemWrapper } from './HackerNewsItem.styled';
 
 interface HackerNewsItemProps {
   sortedNews: NewsState['news'];
@@ -14,8 +14,11 @@ const HackerNewsItem: React.FC<HackerNewsItemProps> = ({ sortedNews }) => {
   return (
     <>
       {sortedNews.map((item: any) => (
-        <HackerNewsItemWrapper key={item.id} onClick={() => router(`/item/${item.id}`)}>
-          {item.id + ' ' + item.title + ' ' + item?.points + ' ' + item?.user + ' ' + item.time_ago}
+        <HackerNewsItemWrapper key={item.id}>
+          <HackerNewsItemTitle onClick={() => router(`/item/${item.id}`)}>{item.title}</HackerNewsItemTitle>
+          <HackerNewsItemOther>
+            {item?.points + ' points | by ' + item?.user + ' | ' + item.time_ago + ` | (${item.url})`}
+          </HackerNewsItemOther>
         </HackerNewsItemWrapper>
       ))}
     </>

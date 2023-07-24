@@ -42,9 +42,7 @@ const HackerNewsIdForm: React.FC = () => {
 
   return (
     <div>
-      <h1>
-        Новость с ID {currentnews.id} {currentnews.title}
-      </h1>
+      <h1>{currentnews.title}</h1>
       {currentnews?.url + ' ' + currentnews.time_ago + '\n' + currentnews.comments_count}
       <div>
         <HackerNewsIdList comments={comments} handleLoadingComments={handleLoadingComments} />

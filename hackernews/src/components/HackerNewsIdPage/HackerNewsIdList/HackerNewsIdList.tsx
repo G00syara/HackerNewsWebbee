@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTypesSelector } from '../../../hooks/useTypeSelector';
 import Loader from '../../../UI/Loader/Loader';
-import HackerNewsIdItem from '../HackerNewsId/HackerNewsIdItem';
+import HackerNewsIdItem from '../HackerNewsIdItem/HackerNewsIdItem';
 
 interface HackerNewsIdListProps {
   comments: any;
