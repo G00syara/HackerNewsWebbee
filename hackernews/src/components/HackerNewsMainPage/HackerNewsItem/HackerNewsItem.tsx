@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router, useNavigate } from 'react-router-dom';
-import { NewsState } from '../../types/news';
+import { NewsState } from '../../../types/news';
 import { HackerNewsItemWrapper } from './HackerNewsItem.styled';
 
 interface HackerNewsItemProps {

@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import type {} from 'redux-thunk/extend-redux';
-import { useTypesSelector } from '../../hooks/useTypeSelector';
-import { fetchNews } from '../../store/action/news';
-import Navbar from '../../UI/Navbar/Navbar';
+import { useTypesSelector } from '../../../hooks/useTypeSelector';
+import { fetchNews } from '../../../store/action/news';
+import Navbar from '../../../UI/Navbar/Navbar';
 import HackerNewsList from '../HackerNewsList/HackerNewsList';
 import { HackerNewsFormWrapper } from './HackerNewsFrom.styled';
 

@@ -11,6 +11,7 @@ const AppRouter = () => {
       <Routes>
         <Route path="/item/:id" element={<NewsIdPage />} />
         <Route path="/" element={<NewsPage />} />
+        <Route path="*" element={<NewsPage />} />
       </Routes>
     </>
   );
