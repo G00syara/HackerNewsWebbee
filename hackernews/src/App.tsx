@@ -6,11 +6,9 @@ import AppRouter from '../src/router/AppRouter';
 
 const App: React.FC = () => {
   return (
-    <>
-      <BrowserRouter>
-        <AppRouter />
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
   );
 };
 

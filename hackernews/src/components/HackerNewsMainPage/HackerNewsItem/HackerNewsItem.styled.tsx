@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 export const HackerNewsItemWrapper = styled.div`
   padding: 10px;
-  border: 1px solid black;
+  border: 1px solid gray;
   border-radius: 5px;
 `;
 
@@ -12,7 +12,10 @@ export const HackerNewsItemTitle = styled.div`
     monospace;
   font-size: 16px;
   font-weight: 200;
-  cursor: default;
+  cursor: pointer;
+  &:hover {
+    color: #ff8c00;
+  }
 `;
 export const HackerNewsItemOther = styled.div`
   font-family:

@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { useTypesSelector } from '../../../hooks/useTypeSelector';
-import { HackerNewsItemIdWrapper } from './HackerNewsIdItem.styled';
+import {
+  HackerNewsItemIdContent,
+  HackerNewsItemIdCountComments,
+  HackerNewsItemIdUserTime,
+  HackerNewsItemIdWrapper,
+} from './HackerNewsIdItem.styled';
 
 interface HackerNewsIdItemProps {
   comments: any;
@@ -12,14 +17,20 @@ const HackerNewsIdItem: React.FC<HackerNewsIdItemProps> = ({ comments, handleCli
   comments.open = open;
 
   return (
-    <HackerNewsItemIdWrapper
-      onClick={() => {
-        handleClickReply(comments.id);
-        setOpen(true);
-        console.log(comments.open);
-      }}
-    >
-      <div>{comments.id + ' ' + `${comments.content}`}</div>
+    <HackerNewsItemIdWrapper>
+      <HackerNewsItemIdUserTime>{`${comments.user} | ${comments.time_ago}`}</HackerNewsItemIdUserTime>
+
+      {/*Чтобы преобразовать string в Html */}
+      <HackerNewsItemIdContent dangerouslySetInnerHTML={{ __html: comments.content }}></HackerNewsItemIdContent>
+
+      <HackerNewsItemIdCountComments
+        onClick={() => {
+          handleClickReply(comments.id);
+          setOpen(true);
+        }}
+      >
+        {comments.comments_count > 0 ? `👉 Количество комментариев ${comments.comments_count}` : ''}
+      </HackerNewsItemIdCountComments>
     </HackerNewsItemIdWrapper>
   );
 };
