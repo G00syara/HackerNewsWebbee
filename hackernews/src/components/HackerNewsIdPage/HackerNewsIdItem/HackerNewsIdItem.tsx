@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useTypesSelector } from '../../../hooks/useTypeSelector';
+import { HackerNewsItemIdWrapper } from './HackerNewsIdItem.styled';
 
 interface HackerNewsIdItemProps {
   comments: any;
-  handleLoadingComments: (id: number) => void;
+  handleClickReply: (id: number) => void;
 }
 
-const HackerNewsIdItem: React.FC<HackerNewsIdItemProps> = ({ comments, handleLoadingComments }) => {
+const HackerNewsIdItem: React.FC<HackerNewsIdItemProps> = ({ comments, handleClickReply }) => {
+  const [open, setOpen] = useState(false);
+  comments.open = open;
+
   return (
-    <div>
-      <button onClick={() => handleLoadingComments(comments.id)}> подгрузить комменты </button>
+    <HackerNewsItemIdWrapper
+      onClick={() => {
+        handleClickReply(comments.id);
+        setOpen(true);
+        console.log(comments.open);
+      }}
+    >
       <div>{comments.id + ' ' + `${comments.content}`}</div>
-    </div>
+    </HackerNewsItemIdWrapper>
   );
 };
 

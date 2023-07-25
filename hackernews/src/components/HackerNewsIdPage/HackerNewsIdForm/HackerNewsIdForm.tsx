@@ -3,8 +3,16 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTypesSelector } from '../../../hooks/useTypeSelector';
 import { fetchCurrentNews } from '../../../store/action/news';
+import { NewsItem } from '../../../types/types';
 import Loader from '../../../UI/Loader/Loader';
 import HackerNewsIdList from '../HackerNewsIdList/HackerNewsIdList';
+import {
+  HackerNewsIdFormContainer,
+  HackerNewsIdFormOther,
+  HackerNewsIdFormTitle,
+  HackerNewsIdFormUrl,
+  HackerNewsIdFormWrapper,
+} from './HackerNewsIdForm.styled';
 
 const HackerNewsIdForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -14,24 +22,21 @@ const HackerNewsIdForm: React.FC = () => {
 
   const [commentsTree, setCommentTree] = useState(comments);
 
+  const rating =
+    currentnews.points > 100
+      ? '⭐⭐⭐⭐⭐'
+      : currentnews.points > 50
+      ? '⭐⭐⭐⭐'
+      : currentnews.points > 25
+      ? '⭐⭐⭐'
+      : currentnews.points > 10
+      ? '⭐⭐'
+      : '⭐';
+
   useEffect(() => {
     dispatch(fetchCurrentNews(params.id));
   }, []);
 
-  const handleLoadingComments = (id: number): any => {
-    setCommentTree((comments: any): any => {
-      const childrenComments = (children: any[]): any => {
-        return children.map((item) => {
-          if (item.comments && item.id === id) {
-            console.log(item.comments);
-            return { ...item, comments: childrenComments(item.comments) };
-          }
-          return item;
-        });
-      };
-      return childrenComments(comments);
-    });
-  };
   if (error) {
     return <h1>Ошибка</h1>;
   }
@@ -41,13 +46,16 @@ const HackerNewsIdForm: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>{currentnews.title}</h1>
-      {currentnews?.url + ' ' + currentnews.time_ago + '\n' + currentnews.comments_count}
+    <HackerNewsIdFormWrapper>
+      <HackerNewsIdFormContainer>
+        <HackerNewsIdFormTitle>{currentnews.title}</HackerNewsIdFormTitle>
+        <HackerNewsIdFormUrl> {` (${currentnews?.url})`}</HackerNewsIdFormUrl>
+        <HackerNewsIdFormOther>{` ${rating} | ${currentnews.time_ago} | by ${currentnews.user} | ${currentnews.comments_count} comments`}</HackerNewsIdFormOther>
+      </HackerNewsIdFormContainer>
       <div>
-        <HackerNewsIdList comments={comments} handleLoadingComments={handleLoadingComments} />
+        <HackerNewsIdList comments={comments} />
       </div>
-    </div>
+    </HackerNewsIdFormWrapper>
   );
 };
 

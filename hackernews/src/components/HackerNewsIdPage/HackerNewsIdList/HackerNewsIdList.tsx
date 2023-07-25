@@ -2,22 +2,31 @@ import React, { useState } from 'react';
 import { useTypesSelector } from '../../../hooks/useTypeSelector';
 import Loader from '../../../UI/Loader/Loader';
 import HackerNewsIdItem from '../HackerNewsIdItem/HackerNewsIdItem';
+import { HackerNewsListIdWrapper } from './HackerNewsIdList.styled';
 
 interface HackerNewsIdListProps {
   comments: any;
-  handleLoadingComments: (id: number) => void;
 }
 
-const HackerNewsIdList: React.FC<HackerNewsIdListProps> = ({ comments, handleLoadingComments }) => {
+const HackerNewsIdList: React.FC<HackerNewsIdListProps> = ({ comments }) => {
+  const [isReplying, setReplying] = useState<boolean>(false);
+  const [isId, setIsId] = useState<number>(0);
+
+  const handleClickReply = (id: number) => {
+    setReplying(true);
+    setIsId(id);
+    console.log(isReplying + ' ' + isId);
+  };
+
   return (
     <>
       {comments?.map((item: any) => (
-        <div style={{ border: '1px solid green', margin: 20 }}>
-          <HackerNewsIdItem key={item.id} comments={item} handleLoadingComments={handleLoadingComments} />
+        <HackerNewsListIdWrapper>
           <div>
-            <HackerNewsIdList comments={item.comments} handleLoadingComments={handleLoadingComments} />
+            <HackerNewsIdItem key={item.id} comments={item} handleClickReply={handleClickReply} />
           </div>
-        </div>
+          <div>{((isReplying && isId === item.id) || item.open) && <HackerNewsIdList comments={item.comments} />}</div>
+        </HackerNewsListIdWrapper>
       ))}
     </>
   );
