@@ -1,35 +1,32 @@
 import React, { useState } from 'react';
-import { useTypesSelector } from '../../../hooks/useTypeSelector';
-import Loader from '../../../UI/Loader/Loader';
+import { useCallback } from 'react';
+import { NewsItem } from '../../../types/types';
 import HackerNewsIdItem from '../HackerNewsIdItem/HackerNewsIdItem';
 import { HackerNewsListIdWrapper } from './HackerNewsIdList.styled';
 
 interface HackerNewsIdListProps {
-  comments: any;
+  comments: NewsItem[] | undefined;
 }
 
 const HackerNewsIdList: React.FC<HackerNewsIdListProps> = ({ comments }) => {
   const [isReplying, setReplying] = useState<boolean>(false);
   const [isId, setIsId] = useState<number>(0);
 
-  const handleClickReply = (id: number) => {
-    setReplying(true);
+  const handleClickReplyAndSetId = useCallback((id: number) => {
+    setReplying((x) => (x = true));
     setIsId(id);
-    console.log(isReplying + ' ' + isId);
-  };
+  }, []);
 
   return (
     <>
       {comments?.map((item: any) => (
         <HackerNewsListIdWrapper>
-          <div>
-            <HackerNewsIdItem key={item.id} comments={item} handleClickReply={handleClickReply} />
-          </div>
-          <div>{((isReplying && isId === item.id) || item.open) && <HackerNewsIdList comments={item.comments} />}</div>
+          <HackerNewsIdItem key={item.id} comments={item} handleClickReplyAndSetId={handleClickReplyAndSetId} />
+          {((isReplying && isId === item.id) || item.open) && <HackerNewsIdList comments={item.comments} />}
         </HackerNewsListIdWrapper>
       ))}
     </>
   );
 };
 
-export default HackerNewsIdList;
+export default React.memo(HackerNewsIdList);

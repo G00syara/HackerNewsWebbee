@@ -19,6 +19,7 @@ export const HackerNewsItemIdUserTime = styled.div`
 `;
 
 export const HackerNewsItemIdCountComments = styled.div`
+  display: inline-block;
   padding-top: 5px;
   margin-left: 3px;
   font-family:

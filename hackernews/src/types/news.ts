@@ -1,5 +1,7 @@
+import { NewsItem } from './types';
+
 export interface NewsState {
-  news: any[];
+  news: NewsItem[];
   loading: boolean;
   error: null | string;
 }
@@ -15,7 +17,7 @@ interface FetchNewsAction {
 }
 interface FetchNewsSuccessAction {
   type: NewsActionTypes.FETCH_NEWS_SUCCESS;
-  payload: any[];
+  payload: NewsItem[];
 }
 interface FetchNewsErrorAction {
   type: NewsActionTypes.FETCH_NEWS_ERROR;

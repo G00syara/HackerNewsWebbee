@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useTypesSelector } from '../../../hooks/useTypeSelector';
+import { NewsItem } from '../../../types/types';
 import {
   HackerNewsItemIdContent,
   HackerNewsItemIdCountComments,
@@ -8,25 +8,30 @@ import {
 } from './HackerNewsIdItem.styled';
 
 interface HackerNewsIdItemProps {
-  comments: any;
-  handleClickReply: (id: number) => void;
+  comments: NewsItem;
+  handleClickReplyAndSetId: (id: number) => void;
 }
 
-const HackerNewsIdItem: React.FC<HackerNewsIdItemProps> = ({ comments, handleClickReply }) => {
+const HackerNewsIdItem: React.FC<HackerNewsIdItemProps> = ({ comments, handleClickReplyAndSetId }) => {
   const [open, setOpen] = useState(false);
+
   comments.open = open;
 
   return (
     <HackerNewsItemIdWrapper>
       <HackerNewsItemIdUserTime>{`${comments.user} | ${comments.time_ago}`}</HackerNewsItemIdUserTime>
-
       {/*Чтобы преобразовать string в Html */}
       <HackerNewsItemIdContent dangerouslySetInnerHTML={{ __html: comments.content }}></HackerNewsItemIdContent>
 
       <HackerNewsItemIdCountComments
         onClick={() => {
-          handleClickReply(comments.id);
-          setOpen(true);
+          {
+            /*Симуляция подгрузки, т.к. API, которую я использую загружает комменты все сразу*/
+          }
+          setTimeout(() => {
+            handleClickReplyAndSetId(comments.id);
+            setOpen((x) => !x);
+          }, 300);
         }}
       >
         {comments.comments_count > 0 ? `👉 Количество комментариев ${comments.comments_count}` : ''}
@@ -35,4 +40,4 @@ const HackerNewsIdItem: React.FC<HackerNewsIdItemProps> = ({ comments, handleCli
   );
 };
 
-export default HackerNewsIdItem;
+export default React.memo(HackerNewsIdItem);

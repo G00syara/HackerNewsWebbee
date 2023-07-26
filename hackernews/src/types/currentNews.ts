@@ -1,6 +1,8 @@
+import { NewsItem } from './types';
+
 export interface CurrentNewsState {
-  currentnews: any;
-  comments?: any[];
+  currentnews?: any;
+  comments?: NewsItem[];
   loading: boolean;
   error: null | string;
 }
@@ -16,7 +18,7 @@ interface FetchCurrentNewsAction {
 }
 interface FetchCurrentNewsSuccessAction {
   type: CurrentNewsActionTypes.FETCH_CURRENT_NEWS_SUCCESS;
-  payload: any;
+  payload: NewsItem;
 }
 
 interface FetchCurrentNewsErrorAction {

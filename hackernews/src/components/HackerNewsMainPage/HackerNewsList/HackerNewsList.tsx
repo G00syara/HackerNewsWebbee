@@ -1,8 +1,4 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useTypesSelector } from '../../../hooks/useTypeSelector';
-import Loader from '../../../UI/Loader/Loader';
-import { fetchNews } from '../../../store/action/news';
+import React from 'react';
 import { NewsState } from '../../../types/news';
 import HackerNewsItem from '../HackerNewsItem/HackerNewsItem';
 

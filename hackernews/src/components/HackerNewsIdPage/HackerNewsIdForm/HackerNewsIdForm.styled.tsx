@@ -21,12 +21,16 @@ export const HackerNewsIdFormTitle = styled.h1`
   font-weight: 700;
 `;
 
-export const HackerNewsIdFormUrl = styled.h1`
+export const HackerNewsIdFormUrl = styled.a`
+  text-decoration: none;
+  color: black;
   font-family:
     Andale Mono,
-    monospace;
+    cursive;
   font-size: 12px;
-  font-weight: 100;
+  &:hover {
+    color: orange;
+  }
 `;
 
 export const HackerNewsIdFormOther = styled.p`

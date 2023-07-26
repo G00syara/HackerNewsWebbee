@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { NewsState } from '../../../types/news';
 import { HackerNewsItemOther, HackerNewsItemTitle, HackerNewsItemWrapper } from './HackerNewsItem.styled';
 
@@ -17,7 +17,7 @@ const HackerNewsItem: React.FC<HackerNewsItemProps> = ({ sortedNews }) => {
         <HackerNewsItemWrapper key={item.id}>
           <HackerNewsItemTitle onClick={() => router(`/item/${item.id}`)}>{item.title}</HackerNewsItemTitle>
           <HackerNewsItemOther>
-            {item?.points + ' points | by ' + item?.user + ' | ' + item.time_ago + ` | (${item.url})`}
+            {`${item?.points} points | by ${item?.user} | ${item.time_ago} | ${item.comments_count} comments`}
           </HackerNewsItemOther>
         </HackerNewsItemWrapper>
       ))}

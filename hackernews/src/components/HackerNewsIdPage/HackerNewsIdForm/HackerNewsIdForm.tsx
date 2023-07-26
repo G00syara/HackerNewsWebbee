@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTypesSelector } from '../../../hooks/useTypeSelector';
 import { fetchCurrentNews } from '../../../store/action/news';
-import { NewsItem } from '../../../types/types';
+import { ButtonRefreshDataAPI, ButtonScrollUp } from '../../../UI/Button/Buttons';
 import Loader from '../../../UI/Loader/Loader';
 import HackerNewsIdList from '../HackerNewsIdList/HackerNewsIdList';
 import {
@@ -20,9 +20,15 @@ const HackerNewsIdForm: React.FC = () => {
 
   const { currentnews, comments, error, loading } = useTypesSelector((state) => state.currentNews);
 
-  const [commentsTree, setCommentTree] = useState(comments);
+  useEffect(() => {
+    dispatch(fetchCurrentNews(params.id));
+    setInterval(() => {
+      //Автоматическое обновление списка новостей раз в минуту
+      dispatch(fetchCurrentNews(currentnews.id));
+    }, 60000);
+  }, []);
 
-  const rating =
+  const rating: string =
     currentnews.points > 100
       ? '⭐⭐⭐⭐⭐'
       : currentnews.points > 50
@@ -32,10 +38,6 @@ const HackerNewsIdForm: React.FC = () => {
       : currentnews.points > 10
       ? '⭐⭐'
       : '⭐';
-
-  useEffect(() => {
-    dispatch(fetchCurrentNews(params.id));
-  }, []);
 
   if (error) {
     return <h1>Ошибка</h1>;
@@ -49,14 +51,34 @@ const HackerNewsIdForm: React.FC = () => {
     <HackerNewsIdFormWrapper>
       <HackerNewsIdFormContainer>
         <HackerNewsIdFormTitle>{currentnews.title}</HackerNewsIdFormTitle>
-        <HackerNewsIdFormUrl> {` (${currentnews?.url})`}</HackerNewsIdFormUrl>
-        <HackerNewsIdFormOther>{` ${rating} | ${currentnews.time_ago} | by ${currentnews.user} | ${currentnews.comments_count} comments`}</HackerNewsIdFormOther>
+        <HackerNewsIdFormUrl href={currentnews.url} target="_blank">
+          Link to the news
+        </HackerNewsIdFormUrl>
+        <HackerNewsIdFormOther>{`${rating} | ${currentnews.time_ago} | by ${currentnews.user} | ${currentnews.comments_count} comments`}</HackerNewsIdFormOther>
       </HackerNewsIdFormContainer>
       <div>
         <HackerNewsIdList comments={comments} />
       </div>
+      <ButtonScrollUp
+        onClick={() => {
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth',
+          });
+        }}
+      >
+        ⇧
+      </ButtonScrollUp>
+      <ButtonRefreshDataAPI
+        onClick={() => {
+          dispatch(fetchCurrentNews(currentnews.id));
+        }}
+      >
+        ↻
+      </ButtonRefreshDataAPI>
     </HackerNewsIdFormWrapper>
   );
 };
 
-export default HackerNewsIdForm;
+export default React.memo(HackerNewsIdForm);
