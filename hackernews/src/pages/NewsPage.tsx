@@ -5,7 +5,6 @@ import Navbar from '../UI/Navbar/Navbar';
 const NewsPage: React.FC = () => {
   return (
     <>
-      <Navbar />
       <HackerNewsForm />
     </>
   );

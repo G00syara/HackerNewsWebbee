@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCallback } from 'react';
-import { NewsItem } from '../../../types/types';
+import { NewsItem } from '../../../types/mainTypes';
 import HackerNewsIdItem from '../HackerNewsIdItem/HackerNewsIdItem';
 import { HackerNewsListIdWrapper } from './HackerNewsIdList.styled';
 
@@ -19,7 +19,7 @@ const HackerNewsIdList: React.FC<HackerNewsIdListProps> = ({ comments }) => {
 
   return (
     <>
-      {comments?.map((item: any) => (
+      {comments?.map((item: NewsItem) => (
         <HackerNewsListIdWrapper>
           <HackerNewsIdItem key={item.id} comments={item} handleClickReplyAndSetId={handleClickReplyAndSetId} />
           {((isReplying && isId === item.id) || item.open) && <HackerNewsIdList comments={item.comments} />}

@@ -2,7 +2,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { CurrentNewsAction, CurrentNewsActionTypes } from '../../types/currentNews';
 import { NewsAction, NewsActionTypes } from '../../types/news';
-import { NewsItem } from '../../types/types';
+import { NewsItem } from '../../types/mainTypes';
 
 export const fetchNews = () => {
   return async (dispatch: Dispatch<NewsAction>) => {
@@ -16,8 +16,6 @@ export const fetchNews = () => {
         dispatch({ type: NewsActionTypes.FETCH_NEWS });
         const response = await axios.get(`https://api.hnpwa.com/v0/newest/${page}.json`);
         const newsOnPage = response.data;
-        console.log(newsOnPage);
-
         totalNews.push(...newsOnPage.slice(0, countNews));
         setTimeout(() => {
           dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: totalNews });

@@ -1,8 +1,8 @@
-import { NewsItem } from './types';
+import { NewsItem } from './mainTypes';
 
 export interface CurrentNewsState {
-  currentnews?: any;
-  comments?: NewsItem[];
+  currentnews: NewsItem;
+  comments: NewsItem[];
   loading: boolean;
   error: null | string;
 }

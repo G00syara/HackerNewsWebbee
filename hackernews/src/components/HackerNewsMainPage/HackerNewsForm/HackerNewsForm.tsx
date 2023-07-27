@@ -1,25 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import type {} from 'redux-thunk/extend-redux';
 import { useTypesSelector } from '../../../hooks/useTypeSelector';
 import { fetchNews } from '../../../store/action/news';
 import { ButtonRefreshDataAPI, ButtonScrollUp } from '../../../UI/Button/Buttons';
 import Loader from '../../../UI/Loader/Loader';
+import RerenderedComponent from '../../RerenderedComponent/RerenderedComponent';
 import HackerNewsList from '../HackerNewsList/HackerNewsList';
 import { HackerNewsFormWrapper } from './HackerNewsFrom.styled';
 
 const HackerNewsForm: React.FC = () => {
   const { news, error, loading } = useTypesSelector((state) => state.newsList);
   const dispatch = useDispatch();
-  const sortedNews = news.sort((a, b) => (a.time < b.time ? 1 : -1));
 
   useEffect(() => {
     dispatch(fetchNews());
-    setInterval(() => {
-      //Автоматическое обновление списка новостей раз в минуту
-      dispatch(fetchNews());
-    }, 60000);
   }, []);
+
+  const uploadNews = useCallback(async () => {
+    dispatch(fetchNews());
+  }, [news]);
 
   if (error) {
     return <h1>{error}</h1>;
@@ -30,7 +30,7 @@ const HackerNewsForm: React.FC = () => {
 
   return (
     <HackerNewsFormWrapper>
-      <HackerNewsList sortedNews={sortedNews} />
+      <HackerNewsList sortedNews={news} />
       <ButtonScrollUp
         onClick={() => {
           window.scrollTo({
@@ -42,9 +42,10 @@ const HackerNewsForm: React.FC = () => {
       >
         ⇧
       </ButtonScrollUp>
+      <RerenderedComponent callback={uploadNews} />
       <ButtonRefreshDataAPI
         onClick={() => {
-          dispatch(fetchNews());
+          uploadNews();
         }}
       >
         ↻
@@ -53,4 +54,4 @@ const HackerNewsForm: React.FC = () => {
   );
 };
 
-export default React.memo(HackerNewsForm);
+export default HackerNewsForm;

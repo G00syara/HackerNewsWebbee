@@ -1,4 +1,4 @@
-import { NewsItem } from './types';
+import { NewsItem } from './mainTypes';
 
 export interface NewsState {
   news: NewsItem[];

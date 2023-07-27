@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { NewsItem } from '../../../types/types';
+import { NewsItem } from '../../../types/mainTypes';
+import DOMPurify from 'dompurify';
 import {
   HackerNewsItemIdContent,
   HackerNewsItemIdCountComments,
@@ -13,24 +14,26 @@ interface HackerNewsIdItemProps {
 }
 
 const HackerNewsIdItem: React.FC<HackerNewsIdItemProps> = ({ comments, handleClickReplyAndSetId }) => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  comments.open = open;
+  comments.open = isOpen;
+
+  const treatedContent = DOMPurify.sanitize(comments.content);
 
   return (
     <HackerNewsItemIdWrapper>
       <HackerNewsItemIdUserTime>{`${comments.user} | ${comments.time_ago}`}</HackerNewsItemIdUserTime>
       {/*Чтобы преобразовать string в Html */}
-      <HackerNewsItemIdContent dangerouslySetInnerHTML={{ __html: comments.content }}></HackerNewsItemIdContent>
+      <HackerNewsItemIdContent dangerouslySetInnerHTML={{ __html: treatedContent }}></HackerNewsItemIdContent>
 
       <HackerNewsItemIdCountComments
         onClick={() => {
           {
             /*Симуляция подгрузки, т.к. API, которую я использую загружает комменты все сразу*/
           }
+          setIsOpen(true);
           setTimeout(() => {
             handleClickReplyAndSetId(comments.id);
-            setOpen((x) => !x);
           }, 300);
         }}
       >

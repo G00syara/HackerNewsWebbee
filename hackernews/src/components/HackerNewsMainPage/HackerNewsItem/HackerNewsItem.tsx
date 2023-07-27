@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NewsState } from '../../../types/news';
+import { NewsItem } from '../../../types/mainTypes';
 import { HackerNewsItemOther, HackerNewsItemTitle, HackerNewsItemWrapper } from './HackerNewsItem.styled';
 
 interface HackerNewsItemProps {
@@ -9,11 +10,10 @@ interface HackerNewsItemProps {
 
 const HackerNewsItem: React.FC<HackerNewsItemProps> = ({ sortedNews }) => {
   const router = useNavigate();
-  console.log(router);
 
   return (
     <>
-      {sortedNews.map((item: any) => (
+      {sortedNews.map((item: NewsItem) => (
         <HackerNewsItemWrapper key={item.id}>
           <HackerNewsItemTitle onClick={() => router(`/item/${item.id}`)}>{item.title}</HackerNewsItemTitle>
           <HackerNewsItemOther>

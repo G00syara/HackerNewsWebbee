@@ -1,7 +1,24 @@
 import { CurrentNewsAction, CurrentNewsActionTypes, CurrentNewsState } from '../../types/currentNews';
 
 const initialState: CurrentNewsState = {
-  currentnews: [],
+  currentnews: {
+    id: 0,
+    title: '',
+    points: 0,
+    user: '',
+    time: 0,
+    time_ago: '',
+    content: '',
+    deleted: false,
+    dead: false,
+    type: '',
+    url: '',
+    domain: '',
+    comments: [],
+    level: 0,
+    comments_count: 0,
+    open: false,
+  },
   comments: [],
   loading: false,
   error: null,
@@ -10,11 +27,16 @@ const initialState: CurrentNewsState = {
 export const currentNewsReducer = (state = initialState, action: CurrentNewsAction): CurrentNewsState => {
   switch (action.type) {
     case CurrentNewsActionTypes.FETCH_CURRENT_NEWS:
-      return { loading: true, error: null, currentnews: [] };
+      return {
+        loading: true,
+        error: null,
+        currentnews: initialState.currentnews,
+        comments: state.comments,
+      };
     case CurrentNewsActionTypes.FETCH_CURRENT_NEWS_SUCCESS:
-      return { loading: false, error: null, currentnews: action.payload, comments: action.payload.comments };
+      return { ...state, currentnews: action.payload, loading: false, comments: action.payload.comments };
     case CurrentNewsActionTypes.FETCH_CURRENT_NEWS_ERROR:
-      return { loading: false, error: action.payload, currentnews: [] };
+      return { ...state, error: action.payload };
     default:
       return state;
   }

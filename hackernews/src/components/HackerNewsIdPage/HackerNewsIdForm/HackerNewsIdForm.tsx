@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTypesSelector } from '../../../hooks/useTypeSelector';
 import { fetchCurrentNews } from '../../../store/action/news';
 import { ButtonRefreshDataAPI, ButtonScrollUp } from '../../../UI/Button/Buttons';
 import Loader from '../../../UI/Loader/Loader';
+import RerenderComponent from '../../RerenderedComponent/RerenderedComponent';
 import HackerNewsIdList from '../HackerNewsIdList/HackerNewsIdList';
 import {
   HackerNewsIdFormContainer,
@@ -17,27 +18,28 @@ import {
 const HackerNewsIdForm: React.FC = () => {
   const dispatch = useDispatch();
   const params = useParams();
+  const [isRefreshed, setRefreshed] = useState<boolean>(false);
 
   const { currentnews, comments, error, loading } = useTypesSelector((state) => state.currentNews);
 
   useEffect(() => {
     dispatch(fetchCurrentNews(params.id));
-    setInterval(() => {
-      //Автоматическое обновление списка новостей раз в минуту
-      dispatch(fetchCurrentNews(currentnews.id));
-    }, 60000);
   }, []);
 
+  const uploadComments = useCallback(async () => {
+    dispatch(fetchCurrentNews(params.id));
+  }, [params.id]);
+
   const rating: string =
-    currentnews.points > 100
-      ? '⭐⭐⭐⭐⭐'
-      : currentnews.points > 50
-      ? '⭐⭐⭐⭐'
-      : currentnews.points > 25
-      ? '⭐⭐⭐'
-      : currentnews.points > 10
-      ? '⭐⭐'
-      : '⭐';
+    currentnews.points !== null
+      ? currentnews.points > 100
+        ? '⭐⭐⭐⭐⭐'
+        : currentnews.points > 50
+        ? '⭐⭐⭐'
+        : currentnews.points > 10
+        ? '⭐⭐'
+        : '⭐'
+      : '';
 
   if (error) {
     return <h1>Ошибка</h1>;
@@ -54,6 +56,7 @@ const HackerNewsIdForm: React.FC = () => {
         <HackerNewsIdFormUrl href={currentnews.url} target="_blank">
           Link to the news
         </HackerNewsIdFormUrl>
+        <RerenderComponent callback={uploadComments} />
         <HackerNewsIdFormOther>{`${rating} | ${currentnews.time_ago} | by ${currentnews.user} | ${currentnews.comments_count} comments`}</HackerNewsIdFormOther>
       </HackerNewsIdFormContainer>
       <div>
@@ -72,7 +75,7 @@ const HackerNewsIdForm: React.FC = () => {
       </ButtonScrollUp>
       <ButtonRefreshDataAPI
         onClick={() => {
-          dispatch(fetchCurrentNews(currentnews.id));
+          dispatch(fetchCurrentNews(params.id));
         }}
       >
         ↻
@@ -81,4 +84,4 @@ const HackerNewsIdForm: React.FC = () => {
   );
 };
 
-export default React.memo(HackerNewsIdForm);
+export default HackerNewsIdForm;
