@@ -3,15 +3,24 @@
 //Чтобы не было ситуации, когда пользователь спустя 55 секунд принудительно перезагрузил страницу
 //И после этого у него через 5 секунд страница ещё раз обновилась
 
-import React from 'react';
-import useRerenderedComponent from '../../hooks/useRerenderedComponent';
+import { render } from '@testing-library/react';
+import React, { useEffect, useCallback } from 'react';
 
 //Без any, ругается
 const RerenderedComponent: React.FC<{ callback: () => Promise<void> }> = ({ callback }): any => {
-  const rerender: void = useRerenderedComponent(callback);
-  console.log('rerender');
+  const upload = useCallback(async () => {
+    callback();
+  }, [callback]);
 
-  return rerender;
+  useEffect(() => {
+    const intervalId = setInterval(upload, 60 * 1000);
+
+    return () => {
+      clearTimeout(intervalId);
+    };
+  }, [upload]);
+
+  return;
 };
 
 export default React.memo(RerenderedComponent);
