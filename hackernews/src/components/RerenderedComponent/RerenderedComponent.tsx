@@ -8,17 +8,13 @@ import React, { useEffect, useCallback } from 'react';
 
 //Без any, ругается
 const RerenderedComponent: React.FC<{ callback: () => Promise<void> }> = ({ callback }): any => {
-  const upload = useCallback(async () => {
-    callback();
-  }, [callback]);
-
   useEffect(() => {
-    const intervalId = setInterval(upload, 60 * 1000);
+    const intervalId = setInterval(callback, 60 * 1000);
 
     return () => {
       clearTimeout(intervalId);
     };
-  }, [upload]);
+  }, [callback]);
 
   return;
 };
