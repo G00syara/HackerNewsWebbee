@@ -16,7 +16,7 @@ export const fetchNews = () => {
         dispatch({ type: NewsActionTypes.FETCH_NEWS });
         const response = await axios.get(`https://api.hnpwa.com/v0/newest/${page}.json`);
         if (response.data === null || typeof response.data === 'string' || typeof response.data === undefined) {
-          dispatch({ type: NewsActionTypes.FETCH_NEWS_ERROR, payload: 'Произошла ошибка при загрузке новостей' });
+          throw '';
         } else {
           const newsOnPage = response.data;
           totalNews.push(...newsOnPage.slice(0, countNews));
@@ -38,10 +38,7 @@ export const fetchCurrentNews = (id: any) => {
       const response = await axios.get(`https://api.hnpwa.com/v0/item/${id}.json`);
       console.log(response.data);
       if (response.data === null || typeof response.data === 'string' || typeof response.data === undefined) {
-        dispatch({
-          type: CurrentNewsActionTypes.FETCH_CURRENT_NEWS_ERROR,
-          payload: 'Произошла ошибка при загрузке новости',
-        });
+        throw '';
       } else {
         setTimeout(() => {
           dispatch({
