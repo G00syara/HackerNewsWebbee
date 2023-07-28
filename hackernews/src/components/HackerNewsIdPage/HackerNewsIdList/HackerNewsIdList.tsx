@@ -13,7 +13,7 @@ const HackerNewsIdList: React.FC<HackerNewsIdListProps> = ({ comments }) => {
   const [isId, setIsId] = useState<number>(0);
 
   const handleClickReplyAndSetId = useCallback((id: number) => {
-    setReplying((x) => (x = true));
+    setReplying(true);
     setIsId(id);
   }, []);
 

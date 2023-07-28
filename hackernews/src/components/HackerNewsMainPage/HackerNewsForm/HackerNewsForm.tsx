@@ -19,7 +19,7 @@ const HackerNewsForm: React.FC = () => {
 
   const uploadNews = useCallback(async () => {
     dispatch(fetchNews());
-  }, [news]);
+  }, [news, dispatch]);
 
   if (error) {
     return <h1>{error}</h1>;

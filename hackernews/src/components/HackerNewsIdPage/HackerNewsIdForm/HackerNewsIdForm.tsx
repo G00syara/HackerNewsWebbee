@@ -42,7 +42,7 @@ const HackerNewsIdForm: React.FC = () => {
       : '';
 
   if (error) {
-    return <h1>Ошибка</h1>;
+    return <h1>{error}</h1>;
   }
 
   if (loading) {

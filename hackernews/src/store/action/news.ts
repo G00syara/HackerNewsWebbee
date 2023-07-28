@@ -15,11 +15,16 @@ export const fetchNews = () => {
       try {
         dispatch({ type: NewsActionTypes.FETCH_NEWS });
         const response = await axios.get(`https://api.hnpwa.com/v0/newest/${page}.json`);
-        const newsOnPage = response.data;
-        totalNews.push(...newsOnPage.slice(0, countNews));
-        setTimeout(() => {
-          dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: totalNews });
-        }, 500);
+        if (response.data === null || typeof response.data === 'string' || typeof response.data === undefined) {
+          dispatch({ type: NewsActionTypes.FETCH_NEWS_ERROR, payload: 'Произошла ошибка при загрузке новостей' });
+        } else {
+          const newsOnPage = response.data;
+          totalNews.push(...newsOnPage.slice(0, countNews));
+
+          setTimeout(() => {
+            dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: totalNews });
+          }, 500);
+        }
       } catch (error) {
         dispatch({ type: NewsActionTypes.FETCH_NEWS_ERROR, payload: 'Произошла ошибка при загрузке новостей' });
       }
@@ -31,16 +36,24 @@ export const fetchCurrentNews = (id: any) => {
     try {
       dispatch({ type: CurrentNewsActionTypes.FETCH_CURRENT_NEWS });
       const response = await axios.get(`https://api.hnpwa.com/v0/item/${id}.json`);
-      setTimeout(() => {
+      console.log(response.data);
+      if (response.data === null || typeof response.data === 'string' || typeof response.data === undefined) {
         dispatch({
-          type: CurrentNewsActionTypes.FETCH_CURRENT_NEWS_SUCCESS,
-          payload: response.data,
+          type: CurrentNewsActionTypes.FETCH_CURRENT_NEWS_ERROR,
+          payload: 'Произошла ошибка при загрузке новости',
         });
-      }, 500);
+      } else {
+        setTimeout(() => {
+          dispatch({
+            type: CurrentNewsActionTypes.FETCH_CURRENT_NEWS_SUCCESS,
+            payload: response.data,
+          });
+        }, 500);
+      }
     } catch (error) {
       dispatch({
         type: CurrentNewsActionTypes.FETCH_CURRENT_NEWS_ERROR,
-        payload: 'Произошла ошибка при загрузке новостей',
+        payload: 'Произошла ошибка при загрузке новости',
       });
     }
   };
