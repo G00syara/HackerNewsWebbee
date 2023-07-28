@@ -12,20 +12,39 @@ const HackerNewsIdList: React.FC<HackerNewsIdListProps> = ({ comments }) => {
   const [isReplying, setReplying] = useState<boolean>(false);
   const [isId, setIsId] = useState<number>(0);
 
-  const handleClickReplyAndSetId = useCallback((id: number) => {
-    setReplying(true);
-    setIsId(id);
-  }, []);
+  const handleClickOpen = useCallback(
+    (id: number) => {
+      setReplying(true);
+      setIsId(id);
+    },
+    [isReplying, isId],
+  );
+  const handleClickClose = useCallback(
+    (id: number) => {
+      setReplying(false);
+      setIsId(id);
+    },
+    [isReplying, isId],
+  );
 
   return (
-    <>
+    <HackerNewsListIdWrapper>
       {comments?.map((item: NewsItem) => (
-        <HackerNewsListIdWrapper>
-          <HackerNewsIdItem key={item.id} comments={item} handleClickReplyAndSetId={handleClickReplyAndSetId} />
-          {((isReplying && isId === item.id) || item.open) && <HackerNewsIdList comments={item.comments} />}
-        </HackerNewsListIdWrapper>
+        <div>
+          <HackerNewsIdItem
+            key={item.id}
+            comment={item}
+            handleClickOpen={handleClickOpen}
+            handleClickClose={handleClickClose}
+          />
+          {((isReplying && isId === item.id) || item.open) && !item?.dead ? (
+            <HackerNewsIdList comments={item.comments} />
+          ) : (
+            ''
+          )}
+        </div>
       ))}
-    </>
+    </HackerNewsListIdWrapper>
   );
 };
 
