@@ -7,7 +7,7 @@ import { ButtonRefreshDataAPI, ButtonScrollUp } from '../../../UI/Button/Buttons
 import Loader from '../../../UI/Loader/Loader';
 import RerenderedComponent from '../../RerenderedComponent/RerenderedComponent';
 import HackerNewsList from '../HackerNewsList/HackerNewsList';
-import { HackerNewsFormWrapper } from './HackerNewsFrom.styled';
+import { HackerNewsFormError, HackerNewsFormWrapper } from './HackerNewsFrom.styled';
 
 const HackerNewsForm: React.FC = () => {
   const { news, error, loading } = useTypesSelector((state) => state.newsList);
@@ -22,7 +22,7 @@ const HackerNewsForm: React.FC = () => {
   }, [news, dispatch]);
 
   if (error) {
-    return <h1>{error}</h1>;
+    return <HackerNewsFormError>{error}</HackerNewsFormError>;
   }
   if (loading) {
     return <Loader />;

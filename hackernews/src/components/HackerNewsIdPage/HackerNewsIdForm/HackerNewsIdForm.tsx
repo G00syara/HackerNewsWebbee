@@ -9,6 +9,7 @@ import RerenderComponent from '../../RerenderedComponent/RerenderedComponent';
 import HackerNewsIdList from '../HackerNewsIdList/HackerNewsIdList';
 import {
   HackerNewsIdFormContainer,
+  HackerNewsIdFormError,
   HackerNewsIdFormOther,
   HackerNewsIdFormTitle,
   HackerNewsIdFormUrl,
@@ -42,7 +43,7 @@ const HackerNewsIdForm: React.FC = () => {
       : '';
 
   if (error) {
-    return <h1>{error}</h1>;
+    return <HackerNewsIdFormError>{error}</HackerNewsIdFormError>;
   }
 
   if (loading) {
