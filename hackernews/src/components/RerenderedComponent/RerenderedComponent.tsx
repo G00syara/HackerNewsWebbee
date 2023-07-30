@@ -4,19 +4,26 @@
 //И после этого у него через 5 секунд страница ещё раз обновилась
 
 import { render } from '@testing-library/react';
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
+import { RerenderedAlert } from '../../UI/Alert/Alert.styled';
 
 //Без any, ругается
 const RerenderedComponent: React.FC<{ callback: () => Promise<void> }> = ({ callback }): any => {
+  const [fetchAlert, setFetchAlert] = useState<boolean>(false);
+
   useEffect(() => {
     const intervalId = setInterval(callback, 60 * 1000);
+    const fetchAlertTimeout = setTimeout(() => {
+      setFetchAlert(true);
+    }, 54.5 * 1000);
 
     return () => {
+      clearTimeout(fetchAlertTimeout);
       clearTimeout(intervalId);
     };
-  }, [callback]);
+  }, [callback, fetchAlert]);
 
-  return;
+  return fetchAlert && <RerenderedAlert>Update after 5 second</RerenderedAlert>;
 };
 
 export default React.memo(RerenderedComponent);

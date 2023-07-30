@@ -4,6 +4,8 @@ import { CurrentNewsAction, CurrentNewsActionTypes } from '../../types/currentNe
 import { NewsAction, NewsActionTypes } from '../../types/news';
 import { NewsItem } from '../../types/mainTypes';
 
+const DEFAULT_URL = 'https://api.hnpwa.com/v0/';
+
 export const fetchNews = () => {
   return async (dispatch: Dispatch<NewsAction>) => {
     const countNews = 100;
@@ -14,7 +16,7 @@ export const fetchNews = () => {
     for (let page = 1; page <= countPages; page++)
       try {
         dispatch({ type: NewsActionTypes.FETCH_NEWS });
-        const response = await axios.get(`https://api.hnpwa.com/v0/newest/${page}.json`);
+        const response = await axios.get(`${DEFAULT_URL}newest/${page}.json`);
         if (response.data === null || typeof response.data === 'string' || typeof response.data === undefined) {
           throw '';
         } else {
@@ -35,8 +37,7 @@ export const fetchCurrentNews = (id: any) => {
   return async (dispatch: Dispatch<CurrentNewsAction>) => {
     try {
       dispatch({ type: CurrentNewsActionTypes.FETCH_CURRENT_NEWS });
-      const response = await axios.get(`https://api.hnpwa.com/v0/item/${id}.json`);
-      console.log(response.data);
+      const response = await axios.get(`${DEFAULT_URL}item/${id}.json`);
       if (response.data === null || typeof response.data === 'string' || typeof response.data === undefined) {
         throw '';
       } else {
