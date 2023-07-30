@@ -2,8 +2,6 @@
 //И при принудительной перезагрузке таймер setInterval сбрасывался
 //Чтобы не было ситуации, когда пользователь спустя 55 секунд принудительно перезагрузил страницу
 //И после этого у него через 5 секунд страница ещё раз обновилась
-
-import { render } from '@testing-library/react';
 import React, { useEffect, useState } from 'react';
 import { RerenderedAlert } from '../../UI/Alert/Alert.styled';
 
@@ -13,15 +11,21 @@ const RerenderedComponent: React.FC<{ callback: () => Promise<void> }> = ({ call
 
   useEffect(() => {
     const intervalId = setInterval(callback, 60 * 1000);
-    const fetchAlertTimeout = setTimeout(() => {
+
+    return () => {
+      clearTimeout(intervalId);
+    };
+  }, [callback]);
+
+  useEffect(() => {
+    const AlertTimeoutId = setTimeout(() => {
       setFetchAlert(true);
     }, 54.5 * 1000);
 
     return () => {
-      clearTimeout(fetchAlertTimeout);
-      clearTimeout(intervalId);
+      clearTimeout(AlertTimeoutId);
     };
-  }, [callback, fetchAlert]);
+  }, [fetchAlert]);
 
   return fetchAlert && <RerenderedAlert>Update after 5 second</RerenderedAlert>;
 };
