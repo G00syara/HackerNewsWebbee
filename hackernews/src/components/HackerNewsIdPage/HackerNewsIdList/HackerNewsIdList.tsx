@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCallback } from 'react';
 import { NewsItem } from '../../../types/mainTypes';
 import HackerNewsIdItem from '../HackerNewsIdItem/HackerNewsIdItem';
-import { HackerNewsListIdWrapper } from './HackerNewsIdList.styled';
+import { HackerNewsListIdContainer, HackerNewsListIdWrapper } from './HackerNewsIdList.styled';
 
 interface HackerNewsIdListProps {
   comments: NewsItem[] | undefined;
@@ -30,7 +30,7 @@ const HackerNewsIdList: React.FC<HackerNewsIdListProps> = ({ comments }) => {
   return (
     <HackerNewsListIdWrapper>
       {comments?.map((item: NewsItem) => (
-        <div>
+        <HackerNewsListIdContainer>
           <HackerNewsIdItem
             key={item.id}
             comment={item}
@@ -42,7 +42,7 @@ const HackerNewsIdList: React.FC<HackerNewsIdListProps> = ({ comments }) => {
           ) : (
             ''
           )}
-        </div>
+        </HackerNewsListIdContainer>
       ))}
     </HackerNewsListIdWrapper>
   );
