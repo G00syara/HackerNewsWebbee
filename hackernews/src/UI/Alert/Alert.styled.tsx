@@ -11,7 +11,6 @@ export const RerenderedAlert = styled.div`
   border-radius: 25px;
   font-size: 16px;
   padding: 5px 20px;
-  font-size: 16px;
 
   animation: non-invisibility 0.5s;
 

@@ -5,3 +5,5 @@ export const HackerNewsListIdWrapper = styled.div`
   border: 1px solid black;
   border-radius: 25px;
 `;
+
+export const HackerNewsListIdContainer = styled.div``;
