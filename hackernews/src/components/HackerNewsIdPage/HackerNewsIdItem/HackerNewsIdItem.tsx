@@ -44,7 +44,7 @@ const HackerNewsIdItem: React.FC<HackerNewsIdItemProps> = ({ comment, handleClic
             Promise.resolve().then(() => handleClickClose(comment.id));
           }}
         >
-          {comment.open ? `👇 Скрыть` : ''}
+          {comment.open && comment.comments_count > 0 ? `👇 Скрыть` : ''}
         </HackerNewsItemIdCountComments>
       </HackerNewsItemIdWrapper>
     );

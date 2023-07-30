@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTypesSelector } from '../../../hooks/useTypeSelector';
@@ -19,7 +19,6 @@ import {
 const HackerNewsIdForm: React.FC = () => {
   const dispatch = useDispatch();
   const params = useParams();
-  const [isRefreshed, setRefreshed] = useState<boolean>(false);
 
   const { currentnews, comments, error, loading } = useTypesSelector((state) => state.currentNews);
 
@@ -60,9 +59,7 @@ const HackerNewsIdForm: React.FC = () => {
         <RerenderComponent callback={uploadComments} />
         <HackerNewsIdFormOther>{`${rating} | ${currentnews.time_ago} | by ${currentnews.user} | ${currentnews.comments_count} comments`}</HackerNewsIdFormOther>
       </HackerNewsIdFormContainer>
-      <div>
-        <HackerNewsIdList comments={comments} />
-      </div>
+      <HackerNewsIdList comments={comments} />
       <ButtonScrollUp
         onClick={() => {
           window.scrollTo({
